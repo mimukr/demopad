@@ -3,16 +3,14 @@ import "./App.css";
 
 function App() {
   const textAreaElement = useRef<HTMLTextAreaElement>(null);
-  const storageKey = "demopad";
+  const storageKey = "demopad-" + window.location.pathname;
 
   useEffect(() => textAreaElement.current?.focus(), []);
   const handleTab = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Tab") {
       e.preventDefault();
-      const start = e.currentTarget.selectionStart;
-      const end = e.currentTarget.selectionEnd;
-      e.currentTarget.value = e.currentTarget.value.substring(0, start) + "    " + e.currentTarget.value.substring(end);
-      e.currentTarget.selectionStart = e.currentTarget.selectionEnd = start + 4;
+      // Use execCommand instead of setting value directly to keep undo working
+      document.execCommand("insertText", false, "    ");
     }
   }, []);
 
