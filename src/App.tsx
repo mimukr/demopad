@@ -18,7 +18,7 @@ function App() {
     <textarea
       ref={textAreaElement}
       defaultValue={localStorage.getItem(storageKey) || ""}
-      onChange={(e) => localStorage.setItem(storageKey, e.target.value)}
+      onChange={(e) => (e.target.value ? localStorage.setItem(storageKey, e.target.value) : localStorage.removeItem(storageKey))}
       onKeyDown={handleTab}
       className="pad"
     />
