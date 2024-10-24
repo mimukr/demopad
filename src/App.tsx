@@ -3,15 +3,10 @@ import "./App.css";
 
 function App() {
   const textAreaElement = useRef<HTMLTextAreaElement>(null);
-  const currentHash = window.location.hash;
-  const [pageKey] = useState(currentHash);
-  const storageKey = "demopad-" + pageKey;
+  const [currentHash, setCurrentHash] = useState(window.location.hash);
+  const storageKey = "demopad-" + currentHash;
 
-  useEffect(() => {
-    if (currentHash !== pageKey) {
-      window.location.reload();
-    }
-  }, [currentHash]);
+  window.addEventListener("hashchange", () => setCurrentHash(window.location.hash));
 
   useEffect(() => textAreaElement.current?.focus(), []);
 
@@ -25,6 +20,7 @@ function App() {
 
   return (
     <textarea
+      key={storageKey}
       ref={textAreaElement}
       defaultValue={localStorage.getItem(storageKey) || ""}
       onChange={(e) => (e.target.value ? localStorage.setItem(storageKey, e.target.value) : localStorage.removeItem(storageKey))}
