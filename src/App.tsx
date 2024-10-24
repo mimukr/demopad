@@ -3,7 +3,7 @@ import "./App.css";
 
 function App() {
   const textAreaElement = useRef<HTMLTextAreaElement>(null);
-  const storageKey = "demopad-" + window.location.pathname;
+  const storageKey = "demopad-" + window.location.hash;
 
   useEffect(() => textAreaElement.current?.focus(), []);
   const handleTab = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
