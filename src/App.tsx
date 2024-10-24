@@ -1,11 +1,20 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
 
 function App() {
   const textAreaElement = useRef<HTMLTextAreaElement>(null);
-  const storageKey = "demopad-" + window.location.hash;
+  const currentHash = window.location.hash;
+  const [pageKey] = useState(currentHash);
+  const storageKey = "demopad-" + pageKey;
+
+  useEffect(() => {
+    if (currentHash !== pageKey) {
+      window.location.reload();
+    }
+  }, [currentHash]);
 
   useEffect(() => textAreaElement.current?.focus(), []);
+
   const handleTab = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Tab") {
       e.preventDefault();
